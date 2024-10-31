@@ -69,7 +69,7 @@
 
 .login-btn button {
     width: 100%;
-    background-color: white;
+    background-color: #179bd7;
     font-size: 13px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
@@ -77,21 +77,19 @@
     padding-bottom: 7px;
     text-align: center;
     text-decoration: none;
-    color: #179bd7;
-    border: 1px solid #179bd7;
+    color: white;
+    border: none;
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 .login-btn button:hover {
-    background: #f5f5f5;
+    background: #1589bf;
 }
 
 .login-btn button:disabled {
-    background: #f5f5f5;
-    color: #9cd3eb;
-    border-color: #9cd3eb;
+    background: #9cd3eb;
     cursor: not-allowed;
 }
 
