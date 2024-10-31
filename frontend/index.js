@@ -4,27 +4,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login_form');
     const loginStatus = document.getElementById('login-status');
     const loginStatusMessage = document.getElementById('login-status-message');
-    const loginSubmit = document.getElementById('login_submit');
+    const submitBtn = document.getElementById('submit-btn');
+    const msg = document.getElementById('msg');
+
+    // Prevent right click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Prevent ctrl + s
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+        }
+    });
 
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const username = document.getElementById('user').value;
-        const password = document.getElementById('pass').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Basic validation
+        if (!email || !password) {
+            showError('Please fill in all fields');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showError('Please enter a valid email address');
+            return;
+        }
         
         // Disable submit button and show loading state
-        loginSubmit.disabled = true;
-        loginSubmit.textContent = 'Logging in...';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Logging in...';
+        loginStatus.style.visibility = 'hidden';
+        msg.style.display = 'none';
         
         try {
-            const result = await backend.login(username, password);
+            const result = await backend.login(email, password);
             
             if (result) {
                 // Show success message
-                loginStatus.style.visibility = 'visible';
-                loginStatus.style.backgroundColor = '#dff0d8';
-                loginStatus.style.borderColor = '#d6e9c6';
-                loginStatusMessage.textContent = 'Login successful. Redirecting...';
+                showSuccess('Login successful. Redirecting...');
                 
                 // Redirect after successful login
                 const gotoUri = document.getElementById('goto_uri').value;
@@ -35,31 +58,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Invalid login credentials');
             }
         } catch (error) {
-            // Show error message
-            loginStatus.style.visibility = 'visible';
-            loginStatus.style.backgroundColor = '#f2dede';
-            loginStatus.style.borderColor = '#ebccd1';
-            loginStatusMessage.textContent = error.message || 'Login failed. Please try again.';
+            showError(error.message || 'Login failed. Please try again.');
         } finally {
             // Reset submit button
-            loginSubmit.disabled = false;
-            loginSubmit.textContent = 'Log in';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Log in';
         }
     });
 
-    // Handle locale selection
-    document.getElementById('morelocale')?.addEventListener('click', function() {
-        const localeContainer = document.getElementById('locale-container');
-        if (localeContainer) {
-            localeContainer.style.visibility = 'visible';
-        }
-    });
+    function showError(message) {
+        loginStatus.className = 'error-notice error';
+        loginStatus.style.visibility = 'visible';
+        loginStatusMessage.textContent = message;
+        msg.style.display = 'block';
+    }
 
-    // Close locale selection
-    window.toggle_locales = function(show) {
-        const localeContainer = document.getElementById('locale-container');
-        if (localeContainer) {
-            localeContainer.style.visibility = show ? 'visible' : 'hidden';
-        }
-    };
+    function showSuccess(message) {
+        loginStatus.className = 'error-notice success';
+        loginStatus.style.visibility = 'visible';
+        loginStatusMessage.textContent = message;
+        msg.style.display = 'none';
+    }
 });
