@@ -9,7 +9,6 @@
 }
 
 #login-wrapper {
-    flex: 1;
     padding: 20px;
     background: white;
 }
@@ -157,7 +156,7 @@
 }
 
 footer {
-    background: #f8f8f8;
+    background: #ffffff;
     border-top: 1px solid #ddd;
     padding: 20px;
     text-align: center;
