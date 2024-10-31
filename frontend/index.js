@@ -1,55 +1,65 @@
 import { backend } from "declarations/backend";
 
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password');
-    const rememberMe = document.getElementById('rememberMe').checked;
-    const loginButton = document.getElementById('loginButton');
-    const loginSpinner = document.getElementById('loginSpinner');
-    const loginText = document.getElementById('loginText');
-    const errorMessage = document.getElementById('errorMessage');
-    
-    // Show loading state
-    loginButton.disabled = true;
-    loginSpinner.classList.remove('d-none');
-    loginText.textContent = 'Signing in...';
-    errorMessage.classList.add('d-none');
-    
-    try {
-        const result = await backend.login(email, password.value);
-        
-        if (result) {
-            // Successful login
-            if (rememberMe) {
-                localStorage.setItem('email', email);
-            } else {
-                localStorage.removeItem('email');
-            }
-            // Redirect or show success message
-            errorMessage.textContent = 'Login successful!';
-            errorMessage.classList.remove('alert-danger');
-            errorMessage.classList.add('alert-success');
-            errorMessage.classList.remove('d-none');
-        } else {
-            throw new Error('Invalid credentials');
-        }
-    } catch (error) {
-        errorMessage.textContent = error.message || 'Login failed. Please try again.';
-        errorMessage.classList.add('alert-danger');
-        errorMessage.classList.remove('d-none');
-    } finally {
-        // Reset button state
-        loginButton.disabled = false;
-        loginSpinner.classList.add('d-none');
-        loginText.textContent = 'Sign In';
-    }
-});
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login_form');
+    const loginStatus = document.getElementById('login-status');
+    const loginStatusMessage = document.getElementById('login-status-message');
+    const loginSubmit = document.getElementById('login_submit');
 
-// Check for remembered email
-const rememberedEmail = localStorage.getItem('email');
-if (rememberedEmail) {
-    document.getElementById('email').value = rememberedEmail;
-    document.getElementById('rememberMe').checked = true;
-}
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('user').value;
+        const password = document.getElementById('pass').value;
+        
+        // Disable submit button and show loading state
+        loginSubmit.disabled = true;
+        loginSubmit.textContent = 'Logging in...';
+        
+        try {
+            const result = await backend.login(username, password);
+            
+            if (result) {
+                // Show success message
+                loginStatus.style.visibility = 'visible';
+                loginStatus.style.backgroundColor = '#dff0d8';
+                loginStatus.style.borderColor = '#d6e9c6';
+                loginStatusMessage.textContent = 'Login successful. Redirecting...';
+                
+                // Redirect after successful login
+                const gotoUri = document.getElementById('goto_uri').value;
+                setTimeout(() => {
+                    window.location.href = gotoUri;
+                }, 1500);
+            } else {
+                throw new Error('Invalid login credentials');
+            }
+        } catch (error) {
+            // Show error message
+            loginStatus.style.visibility = 'visible';
+            loginStatus.style.backgroundColor = '#f2dede';
+            loginStatus.style.borderColor = '#ebccd1';
+            loginStatusMessage.textContent = error.message || 'Login failed. Please try again.';
+        } finally {
+            // Reset submit button
+            loginSubmit.disabled = false;
+            loginSubmit.textContent = 'Log in';
+        }
+    });
+
+    // Handle locale selection
+    document.getElementById('morelocale')?.addEventListener('click', function() {
+        const localeContainer = document.getElementById('locale-container');
+        if (localeContainer) {
+            localeContainer.style.visibility = 'visible';
+        }
+    });
+
+    // Close locale selection
+    window.toggle_locales = function(show) {
+        const localeContainer = document.getElementById('locale-container');
+        if (localeContainer) {
+            localeContainer.style.visibility = show ? 'visible' : 'hidden';
+        }
+    };
+});
