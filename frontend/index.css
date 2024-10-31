@@ -78,7 +78,7 @@
     text-align: center;
     text-decoration: none;
     color: white;
-    border: none;
+    border: 1px solid #095779;
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -91,6 +91,7 @@
 .login-btn button:disabled {
     background: #9cd3eb;
     cursor: not-allowed;
+    border-color: #7ba9c3;
 }
 
 #locale-footer {
