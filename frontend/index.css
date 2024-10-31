@@ -1,7 +1,7 @@
 .wm {
     margin: 0;
     padding: 0;
-    background: #f5f5f5;
+    background: white;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     min-height: 100vh;
     display: flex;
@@ -11,6 +11,7 @@
 #login-wrapper {
     flex: 1;
     padding: 20px;
+    background: white;
 }
 
 .wrapper {
@@ -29,7 +30,6 @@
 #login-container {
     background: white;
     border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
     padding: 30px;
     max-width: 400px;
     margin: 0 auto;
@@ -38,7 +38,7 @@
 .main-logo {
     display: block;
     margin: 0 auto 30px;
-    max-width: 200px;
+    width: 300px;
 }
 
 .input-req-login {
@@ -61,15 +61,15 @@
 }
 
 .std_textbox:focus {
-    border-color: #ff6c2c;
+    border-color: #0066cc;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(255,108,44,0.2);
+    box-shadow: 0 0 0 2px rgba(0,102,204,0.2);
 }
 
 .login-btn button {
     width: 100%;
     padding: 10px;
-    background: #ff6c2c;
+    background: #0000ff;
     color: white;
     border: none;
     border-radius: 3px;
@@ -79,11 +79,11 @@
 }
 
 .login-btn button:hover {
-    background: #e85d1f;
+    background: #0000cc;
 }
 
 .login-btn button:disabled {
-    background: #ffaa85;
+    background: #9999ff;
     cursor: not-allowed;
 }
 
