@@ -36,7 +36,7 @@
 
 .main-logo {
     display: block;
-    margin: 50px auto 30px;
+    margin: 30px auto 30px;
     width: 300px;
     height: auto;
 }
@@ -50,6 +50,7 @@
 
 .input-field-login {
     margin-bottom: 15px;
+    margin-top: 10px;
 }
 
 .std_textbox {
